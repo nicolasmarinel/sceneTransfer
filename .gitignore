@@ -1,7 +1,2 @@
-<<<<<<< HEAD
 # Ignore the test scene
 testScene/
-=======
-# Ignore the testScene folder:
-testScene/
->>>>>>> eab457d (Reestablished after mistakenly overwriting git repository.)
