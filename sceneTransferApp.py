@@ -128,8 +128,22 @@ def move_files(src, dest, file_exts):
         # and the file path ends with any of the video file extensions listed
         # in the VIDEO_EXTENSIONS tuple...
         if os.path.isfile(file_path) and file.lower().endswith(tuple(file_exts)):
+            # Check if the current file already exists in the "Other" folder.
+            dest_path = os.path.join(dest, file)
+            file_name = os.path.splitext(file)[0]
+            file_ext = os.path.splitext(file)[1].lower()
+
+            counter = 1
+
+            # If the file actually exists in the "Other" folder...
+            while os.path.exists(dest_path):
+                # Add a suffix to the file name and re-add the file extension.
+                new_file_name = f"{file_name} ({counter}){file_ext}"
+                dest_path = os.path.join(dest, new_file_name)
+                counter += 1
+            # This block of code will only execute when the path does not exist yet.
             # Move the file from the original folder to the destination folder.
-            shutil.move(file_path, os.path.join(dest, file))
+            shutil.move(file_path, dest_path)
             # print(f"Moved {file_path} to {os.path.join(dest, file)}")
 
 
