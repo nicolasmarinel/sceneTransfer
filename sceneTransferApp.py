@@ -223,15 +223,26 @@ def organize_docs(doc_path, base_path):
         os.makedirs(asset_folder, exist_ok=True)
         move_files(folder, asset_folder, DOCUMENT_EXTENSIONS)
 
+    asset_folder = os.path.join(dest_folder, CONTRACTS_FOLDER)
+    move_files(dest_folder, asset_folder, DOCUMENT_EXTENSIONS)
+
     for folder in image_folders:
         asset_folder = os.path.join(dest_folder, IDS_FOLDER)
         os.makedirs(asset_folder, exist_ok=True)
         move_files(folder, asset_folder, IMAGE_EXTENSIONS)
 
+    asset_folder = os.path.join(dest_folder, IDS_FOLDER)
+    move_files(dest_folder, asset_folder, IMAGE_EXTENSIONS)
+
     for folder in video_folders:
         asset_folder = os.path.join(dest_folder, SIGNINOUT_FOLDER)
         os.makedirs(asset_folder, exist_ok=True)
         move_files(folder, asset_folder, VIDEO_EXTENSIONS)
+
+    asset_folder = os.path.join(dest_folder, SIGNINOUT_FOLDER)
+    move_files(dest_folder, asset_folder, VIDEO_EXTENSIONS)
+
+
 
     for root, dirs, _ in os.walk(dest_folder, topdown=False):
         # For every folder...
