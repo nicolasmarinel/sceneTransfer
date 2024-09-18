@@ -134,8 +134,9 @@ def move_files(src, dest, file_exts):
             file_ext = os.path.splitext(file)[1].lower()
 
             counter = 1
-
-            # If the file actually exists in the "Other" folder...
+            print("dest_path before: ", dest_path)
+            print("dest_path exists: ", os.path.exists(dest_path)
+            # If the file actually exists in the folder...
             while os.path.exists(dest_path):
                 # Add a suffix to the file name and re-add the file extension.
                 new_file_name = f"{file_name} ({counter}){file_ext}"
@@ -175,7 +176,7 @@ def organize_docs(doc_path, base_path):
     dest_folder = os.path.join(parent_path, docs_folder)
     # Move the docs folder.
     shutil.move(doc_path, dest_folder)
-    print(f"{docs_folder} moved to {parent_path}")
+    # print(f"{docs_folder} moved to {parent_path}")
 
     asset_extensions = VIDEO_EXTENSIONS + IMAGE_EXTENSIONS + DOCUMENT_EXTENSIONS
 
@@ -253,7 +254,7 @@ def organize_docs(doc_path, base_path):
             if dir_path not in created_folders and not os.listdir(dir_path):
                 # ... delete the folder.
                 os.rmdir(dir_path)
-                print(f"Deleted empty folder: {dir_path}")
+                # print(f"Deleted empty folder: {dir_path}")
 
 
 # The function that is called with every iteration of the loop inside "start_organizing()"
@@ -354,7 +355,7 @@ def organize_files(base_path):
             if dir_path not in created_folders and not os.listdir(dir_path):
                 # ... delete the folder.
                 os.rmdir(dir_path)
-                print(f"Deleted empty folder: {dir_path}")
+                # print(f"Deleted empty folder: {dir_path}")
 
 
 # The function called when the user presses the "Start" button.
