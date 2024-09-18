@@ -54,7 +54,6 @@ IMAGES_SUBFOLDERS = [
 ## Create an empty set that will hold the names of all created folders.
 created_folders = set()
 
-
 def create_doc_folders(base_path):
     global created_folders
     folders = [CONTRACTS_FOLDER, IDS_FOLDER, SIGNINOUT_FOLDER]
@@ -151,9 +150,9 @@ def list_folders(root_folder, extensions):
             found_folders.extend(list_folders(item_path, extensions))
     return found_folders
 
-def organize_docs(doc_path):
+def organize_docs(doc_path, base_path):
     # Get the parent directory of the documents folder.
-    base_path = os.path.dirname(doc_path)
+    # base_path = os.path.dirname(doc_path)
     # Get the folder level for base path.
     parent_path = os.path.dirname(base_path)
     # Get the docs folder name.
@@ -337,17 +336,16 @@ def organize_files(base_path):
 def start_organizing(base_paths, doc_paths, site_code_entry):
 
     site_code = site_code_entry.get()
-    print(f"Site code: {site_code}")
 
+    for selection in base_paths:
+        base_path = selection
+    for selection in doc_paths:
+        doc_path = selection
 
-    for doc_path in doc_paths:
-        organize_docs(doc_path)
-    # For every path the user selected in the dialog box...
-    for base_path in base_paths:
-        # ... run the function "organize_files()"
-        organize_files(base_path)
-    # When the loops is done, display a message to the user.
-    # messagebox.showinfo("Done", "Files have been organized successfully.")
+    organize_docs(doc_path, base_path)
+    organize_files(base_path)
+
+    messagebox.showinfo("Done", "Files have been organized successfully.")
 
 
 
@@ -365,7 +363,7 @@ def main():
     selected_paths = []
     selected_docs = []
     window_title = "Organize Scene Files"
-    window_size = "400x300"
+    window_size = "400x400"
     # Call on tkinter and its interpreter to be able to build the
     # graphic user interface (GUI).
     root = tk.Tk()
@@ -383,13 +381,13 @@ def main():
             # ... include the path the user chose as an element in an array.
             selected_paths.append(folder_selected)
             # This next line prints the selected folder into the Tk window.
-            selected_path_label.config(text="\n".join(selected_paths))
+            selected_paths_label.config(text=selected_paths)
 
     def docs_folder():
         docFolder_selected = filedialog.askdirectory()
         if docFolder_selected:
             selected_docs.append(docFolder_selected)
-            selected_docs_label.config(text="\n".join(selected_docs))
+            selected_docs_label.config(text=selected_docs)
 
 
     # Label() implements display boxes where one can place text or images.
@@ -408,9 +406,9 @@ def main():
     select_button.pack(pady=10)
 
     # Create a text box for instances where no folder has been selected.
-    selected_path_label = tk.Label(root, text="No folder selected")
+    selected_paths_label = tk.Label(root, text="No folder selected")
     # Padding.
-    selected_path_label.pack(pady=10)
+    selected_paths_label.pack(pady=10)
 
     docs_label = tk.Label(root, text="Select Documents Folder")
     docs_label.pack(pady=10)
@@ -426,7 +424,6 @@ def main():
 
     site_code_entry = tk.Entry(root)
     site_code_entry.pack(pady=10)
-
 
     # Create a button to start the process.  We declare "start_organizing()"
     # in this line by using the "lambda" keyword.  It was not previously
