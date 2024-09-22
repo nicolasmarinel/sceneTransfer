@@ -1,3 +1,5 @@
+from functions import extensions as ext
+
 CONTRACTS_FOLDER = "Contracts"
 IDS_FOLDER = "IDs"
 SIGNINOUT_FOLDER = "SignInOut"
