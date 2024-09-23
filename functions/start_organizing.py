@@ -5,7 +5,7 @@ from tkinter import messagebox
 # The function called when the user presses the "Start" button.
 def start_organizing(base_paths, doc_paths, site_code_entry):
 
-    site_code = site_code_entry.get()
+    # site_code = site_code_entry.get()
 
     for selection in base_paths:
         base_path = selection

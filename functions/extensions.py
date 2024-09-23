@@ -6,7 +6,7 @@ def load_file_formats(file_path):
     with open(file_path, 'r') as file:
         return json.load(file)
 # Create a variable that represents the JSON file.
-file_formats = load_file_formats('formats.json')
+file_formats = load_file_formats('settings/formats.json')
 
 # Arrays that hold file name extensions.
 VIDEO_EXTENSIONS = file_formats.get('video', [])
