@@ -27,8 +27,8 @@ def main():
 
     selected_paths = []
     selected_docs = []
-    window_title = "Organize Scene Files"
-    window_size = "400x400"
+    window_title = "Scene Transfer App"
+    window_size = "600x500"
     # Call on tkinter and its interpreter to be able to build the
     # graphic user interface (GUI).
     root = tk.Tk()
@@ -50,7 +50,7 @@ def main():
         # Check if the selected folder is either the base path or exactly one level below it
         if commonPath != base_path or folder_selected == base_path:
             return False
-        elif selected_depth == base_depth + 3:
+        elif selected_depth == base_depth + 1:
             return True
         else:
             return False
@@ -70,6 +70,7 @@ def main():
             else:
                 # ... include the path the user chose as an element in an array.
                 selected_paths.append(folder_selected)
+                print(selected_paths)
                 # This next line prints the selected folder into the Tk window.
                 selected_paths_label.config(text=selected_paths)
 
@@ -78,6 +79,19 @@ def main():
         if docFolder_selected:
             selected_docs.append(docFolder_selected)
             selected_docs_label.config(text=selected_docs)
+
+
+    def clear_selection(clear_scene):
+        # Clear the selected paths and reset the label
+        if clear_scene:
+            selected_paths.clear()
+            print(selected_paths)
+            selected_paths_label.config(text="No folder selected")
+        else:
+            selected_docs.clear()
+            print(selected_docs)
+            selected_docs_label.config(text="No folder selected")
+
 
 
     # Label() implements display boxes where one can place text or images.
@@ -100,6 +114,10 @@ def main():
     # Padding.
     selected_paths_label.pack(pady=10)
 
+    # Button to clear the selection
+    clear_scene_button = tk.Button(root, text="Clear Selection", command=lambda: clear_selection(True))
+    clear_scene_button.pack(pady=10)
+
     docs_label = tk.Label(root, text="Select Documents Folder")
     docs_label.pack(pady=10)
 
@@ -108,6 +126,9 @@ def main():
 
     selected_docs_label = tk.Label(root, text="No documents folder selected")
     selected_docs_label.pack(pady=10)
+
+    clear_docs_button = tk.Button(root, text="Clear Selection", command=lambda: clear_selection(False))
+    clear_docs_button.pack(pady=10)
 
     site_code_label = tk.Label(root, text="Enter site code")
     site_code_label.pack(pady=10)

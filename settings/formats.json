@@ -16,7 +16,8 @@
       ".mkv",
       ".flv",
       ".wmv",
-      ".mpeg"
+      ".mpeg",
+      ".mxf"
     ],
 
     "images": [
@@ -27,7 +28,8 @@
       ".bmp",
       ".tiff",
       ".svg",
-      ".webp"
+      ".webp",
+      ".heic"
     ],
 
     "documents": [
