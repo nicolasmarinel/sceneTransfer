@@ -5,10 +5,12 @@ import shutil
 # Tcl/Tk library that allows for the graphic user interface.
 import tkinter as tk
 # Importing the modules necessary for the graphic user interface.
-from tkinter import messagebox, filedialog
+from tkinter import messagebox, filedialog, ttk
 # Load the library that allows to read JSON files
 import json
 from functions import start_organizing as so
+import sys
+from PyQt5 import QtWidgets, QtGui, QtCore
 
 def main():
 
@@ -36,6 +38,22 @@ def main():
     root.title(window_title)
     # Give the root window dimensions.
     root.geometry(window_size)
+    root.configure(bg="white")
+    button_color = "white"
+    button_borderWidth = 0
+    button_highlight = 0
+    label_color = "white"
+    style = ttk.Style()
+    style.configure("Main.TButton",
+                    padding=10,
+                    borderwidth=0,
+                    highlightthickness=0
+                   )
+    style.map("Main.TButton",
+                background=[('active', '#FD6593'), ('!active', '#FEB2C9')]
+             )
+
+    folder = tk.PhotoImage(file="icons/folder_white.png")
 
     def get_restricted_path():
         # Read the restricted path from the text file
@@ -50,7 +68,7 @@ def main():
         # Check if the selected folder is either the base path or exactly one level below it
         if commonPath != base_path or folder_selected == base_path:
             return False
-        elif selected_depth == base_depth + 1:
+        elif selected_depth >= base_depth + 1:
             return True
         else:
             return False
@@ -98,39 +116,39 @@ def main():
     # Here, we place the text specified inside the window.
     # It is not just the title.
     # The first argument
-    label = tk.Label(root, text="Organize Scene Files")
+    label = tk.Label(root, text="Organize Scene Files", bg=label_color)
     # pack() has several options for element placement in a tk window.
     # Here, it is used to add padding in the y-axis to the aforementioned text.
     label.pack(pady=10)
 
     # Create a button using tkinter.  Have it run the "select_folder" function
     # when clicked.
-    select_button = tk.Button(root, text="Select Folder", command=select_folder)
+    select_button = ttk.Button(root, image=folder, command=select_folder, style="Main.TButton")
     # Give the button a 10px padding on the y-axis.
     select_button.pack(pady=10)
 
     # Create a text box for instances where no folder has been selected.
-    selected_paths_label = tk.Label(root, text="No folder selected")
+    selected_paths_label = tk.Label(root, text="No folder selected", bg=label_color)
     # Padding.
     selected_paths_label.pack(pady=10)
 
     # Button to clear the selection
-    clear_scene_button = tk.Button(root, text="Clear Selection", command=lambda: clear_selection(True))
+    clear_scene_button = ttk.Button(root, text="Clear Selection", command=lambda: clear_selection(True), style="Main.TButton")
     clear_scene_button.pack(pady=10)
 
-    docs_label = tk.Label(root, text="Select Documents Folder")
+    docs_label = tk.Label(root, text="Select Documents Folder", bg=label_color)
     docs_label.pack(pady=10)
 
-    docs_button = tk.Button(root, text="Select Docs Folder", command=docs_folder)
+    docs_button = ttk.Button(root, text="Select Docs Folder", command=docs_folder, style="Main.TButton")
     docs_button.pack(pady=10)
 
-    selected_docs_label = tk.Label(root, text="No documents folder selected")
+    selected_docs_label = tk.Label(root, text="No documents folder selected", bg=label_color)
     selected_docs_label.pack(pady=10)
 
-    clear_docs_button = tk.Button(root, text="Clear Selection", command=lambda: clear_selection(False))
+    clear_docs_button = ttk.Button(root, text="Clear Selection", command=lambda: clear_selection(False), style="Main.TButton")
     clear_docs_button.pack(pady=10)
 
-    site_code_label = tk.Label(root, text="Enter site code")
+    site_code_label = tk.Label(root, text="Enter site code", bg=label_color)
     site_code_label.pack(pady=10)
 
     site_code_entry = tk.Entry(root)
@@ -139,7 +157,7 @@ def main():
     # Create a button to start the process.  We declare "start_organizing()"
     # in this line by using the "lambda" keyword.  It was not previously
     # declared in main().
-    start_button = tk.Button(root, text="Start", command=lambda: so.start_organizing(selected_paths, selected_docs, site_code_entry))
+    start_button = ttk.Button(root, text="Start", command=lambda: so.start_organizing(selected_paths, selected_docs, site_code_entry), style="Main.TButton")
     # Padding
     # Padding
     start_button.pack(pady=10)
