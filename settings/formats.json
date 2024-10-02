@@ -17,7 +17,8 @@
       ".flv",
       ".wmv",
       ".mpeg",
-      ".mxf"
+      ".mxf",
+      ".m4v"
     ],
 
     "images": [
