@@ -26,7 +26,11 @@ class SceneTransferApp(QtWidgets.QWidget):
                 padding: 10px;
                 border: none;
                 border-radius: 10px; /* Rounded edges for buttons */
-                background-color: white;
+                background-color: #FEB2C9;
+                min-width: 25px;
+                max-width: 25px;
+                min-height: 25px;
+                max-height: 25px;
             }
             QPushButton:hover {
                 background-color: #FD6593; /* Hover effect */
@@ -48,6 +52,7 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         # Folder selection button
         select_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", self)
+        select_button.setIconSize(QtCore.QSize(32, 32))
         select_button.clicked.connect(self.select_folder)
         layout.addWidget(select_button)
 
@@ -56,7 +61,8 @@ class SceneTransferApp(QtWidgets.QWidget):
         layout.addWidget(self.selected_paths_label)
 
         # Clear selection button
-        clear_scene_button = QtWidgets.QPushButton("Clear Selection", self)
+        clear_scene_button = QtWidgets.QPushButton(QtGui.QIcon("icons/backspace_white.png"), "", self)
+        clear_scene_button.setIconSize(QtCore.QSize(32, 32))
         clear_scene_button.clicked.connect(lambda: self.clear_selection(True))
         layout.addWidget(clear_scene_button)
 
