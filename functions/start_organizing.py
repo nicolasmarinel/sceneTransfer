@@ -3,7 +3,7 @@ from functions import organize_files as of
 from tkinter import messagebox
 
 # The function called when the user presses the "Start" button.
-def start_organizing(base_paths, doc_paths, site_code_entry):
+def start_organizing(base_paths, doc_paths):
 
     #site_code = site_code_entry.get()
     #print(site_code)
