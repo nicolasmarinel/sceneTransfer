@@ -16,7 +16,7 @@ class SceneTransferApp(QtWidgets.QWidget):
     def init_ui(self):
         # Set window properties
         self.setWindowTitle("Scene Transfer App")
-        self.setFixedSize(600, 500)
+        self.setFixedSize(600, 260)
         self.setStyleSheet("""
             QWidget {
                 background-color: white;
@@ -27,10 +27,10 @@ class SceneTransferApp(QtWidgets.QWidget):
                 border: none;
                 border-radius: 10px; /* Rounded edges for buttons */
                 background-color: #FEB2C9;
-                min-width: 25px;
-                max-width: 25px;
-                min-height: 25px;
-                max-height: 25px;
+                min-width: 16px;
+                max-width: 16px;
+                min-height: 16px;
+                max-height: 16px;
             }
             QPushButton:hover {
                 background-color: #FD6593; /* Hover effect */
@@ -39,61 +39,74 @@ class SceneTransferApp(QtWidgets.QWidget):
                 background-color: #FEB2C9; /* Pressed effect */
             }
             QLabel {
-                background-color: white;
+                background-color: gray;
             }
         """)
 
         # Create layout
-        layout = QtWidgets.QVBoxLayout(self)
+        layout = QtWidgets.QGridLayout(self)
+        # Set column widths for row 1
+        layout.setColumnStretch(0, 16)  # Set the stretch factor for column 0
+        layout.setColumnStretch(1, 1)  # Set a smaller stretch factor for column 1
+        layout.setColumnStretch(2, 1)  # Set a smaller stretch factor for column 2
+        layout.setRowStretch(0, 2)
+        layout.setRowStretch(1, 1)
+        layout.setRowStretch(2, 1)
+        layout.setRowStretch(3, 1)
+        layout.setRowStretch(4, 1)
+        layout.setRowStretch(5, 1)
+        layout.rowMinimumHeight(self, 64)
 
         # Add widgets
-        label = QtWidgets.QLabel("Organize Scene Files", self)
-        layout.addWidget(label)
-
-        # Folder selection button
-        select_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", self)
-        select_button.setIconSize(QtCore.QSize(32, 32))
-        select_button.clicked.connect(self.select_folder)
-        layout.addWidget(select_button)
+        title = QtWidgets.QLabel("PSM Scene Organizer", self)
+        title.setFixedHeight(24)
+        layout.addWidget(title, 0, 0, 1, 3, alignment=QtCore.Qt.AlignCenter)
 
         # Label for selected paths
         self.selected_paths_label = QtWidgets.QLabel("No folder selected", self)
-        layout.addWidget(self.selected_paths_label)
+        layout.addWidget(self.selected_paths_label, 1, 0)
+
+        # Folder selection button
+        select_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", self)
+        select_button.setIconSize(QtCore.QSize(24, 24))
+        select_button.clicked.connect(self.select_folder)
+        layout.addWidget(select_button, 1, 1)
+
 
         # Clear selection button
         clear_scene_button = QtWidgets.QPushButton(QtGui.QIcon("icons/backspace_white.png"), "", self)
-        clear_scene_button.setIconSize(QtCore.QSize(32, 32))
+        clear_scene_button.setIconSize(QtCore.QSize(24, 24))
         clear_scene_button.clicked.connect(lambda: self.clear_selection(True))
-        layout.addWidget(clear_scene_button)
+        layout.addWidget(clear_scene_button, 1, 2)
 
-        # Document folder selection
-        docs_label = QtWidgets.QLabel("Select Documents Folder", self)
-        layout.addWidget(docs_label)
+        # Clear documents button
+        clear_docs_button = QtWidgets.QPushButton(QtGui.QIcon("icons/backspace_white.png"), "", self)
+        clear_docs_button.setIconSize(QtCore.QSize(24, 24))
+        clear_docs_button.clicked.connect(lambda: self.clear_selection(False))
+        layout.addWidget(clear_docs_button, 2, 2)
 
-        docs_button = QtWidgets.QPushButton("Select Docs Folder", self)
+        docs_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", self)
+        docs_button.setIconSize(QtCore.QSize(24, 24))
         docs_button.clicked.connect(self.docs_folder)
-        layout.addWidget(docs_button)
+        layout.addWidget(docs_button, 2, 1)
+
 
         # Label for selected documents
         self.selected_docs_label = QtWidgets.QLabel("No documents folder selected", self)
-        layout.addWidget(self.selected_docs_label)
+        layout.addWidget(self.selected_docs_label, 2, 0)
 
-        # Clear documents button
-        clear_docs_button = QtWidgets.QPushButton("Clear Selection", self)
-        clear_docs_button.clicked.connect(lambda: self.clear_selection(False))
-        layout.addWidget(clear_docs_button)
 
         # Site code entry
-        site_code_label = QtWidgets.QLabel("Enter site code", self)
-        layout.addWidget(site_code_label)
+        site_code_label = QtWidgets.QLabel("Site code:", self)
+        layout.addWidget(site_code_label, 3, 0)
 
         self.site_code_entry = QtWidgets.QLineEdit(self)
-        layout.addWidget(self.site_code_entry)
+        layout.addWidget(self.site_code_entry, 3, 1)
 
         # Start button
         start_button = QtWidgets.QPushButton("Start", self)
         start_button.clicked.connect(lambda: so.start_organizing(self.selected_paths, self.selected_docs, self.site_code_entry))
-        layout.addWidget(start_button)
+        layout.addWidget(start_button, 4, 0, 1, 3, alignment=QtCore.Qt.AlignCenter)
 
         self.setLayout(layout)
 
