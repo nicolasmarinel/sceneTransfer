@@ -42,7 +42,7 @@
   ('sceneTransferApp',
    '/home/nico/Documents/PSM/sceneTransferApp/sceneTransferApp.py',
    'PYSOURCE')],
- 'libpython3.10.so.1.0',
+ 'libpython3.10.so',
  True,
  False,
  False,
