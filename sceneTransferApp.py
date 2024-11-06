@@ -119,12 +119,12 @@ class SceneTransferApp(QtWidgets.QWidget):
         base_path = os.path.abspath(self.get_restricted_path())
         folder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Folder")
         if folder_selected:
-            folder_selected = os.path.abspath(folder_selected)
-            if not self.is_valid_selection(folder_selected, base_path):
-                QtWidgets.QMessageBox.critical(self, "Invalid Selection", "Folder selection not allowed at this folder hierarchy. If you wish to select a folder at or above this hierarchy, please change Settings.")
-            else:
-                self.selected_paths.append(folder_selected)
-                self.selected_paths_label.setText(", ".join(self.selected_paths))
+            # folder_selected = os.path.abspath(folder_selected)
+            #if not self.is_valid_selection(folder_selected, base_path):
+            #    QtWidgets.QMessageBox.critical(self, "Invalid Selection", "Folder selection not allowed at this folder hierarchy. If you wish to select a folder at or above this hierarchy, please change Settings.")
+            #else:
+            self.selected_paths.append(folder_selected)
+            self.selected_paths_label.setText(", ".join(self.selected_paths))
 
     def docs_folder(self):
         docFolder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Docs Folder")
