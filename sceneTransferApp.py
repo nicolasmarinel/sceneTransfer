@@ -3,7 +3,7 @@ import sys
 import shutil
 import json
 from PyQt5 import QtWidgets, QtGui, QtCore
-from functions import start_organizing as so
+from functions import start_organizing as so, find_undo as fu
 
 class SceneTransferApp(QtWidgets.QWidget):
     def __init__(self):
@@ -16,7 +16,7 @@ class SceneTransferApp(QtWidgets.QWidget):
     def init_ui(self):
         # Set window properties
         self.setWindowTitle("PSM Scene Transfer App")
-        self.setFixedSize(600, 225)
+        self.setFixedSize(800, 225)
         self.setStyleSheet("""
             QWidget {
                 background-color: white;
@@ -49,6 +49,11 @@ class SceneTransferApp(QtWidgets.QWidget):
         body_layout.setColumnStretch(0, 16)
         body_layout.setColumnStretch(1, 1)
         body_layout.setColumnStretch(2, 1)
+
+        start_div = QtWidgets.QWidget(self)
+        start_layout = QtWidgets.QGridLayout(start_div)
+        start_layout.setColumnStretch(0, 16)
+        start_layout.setColumnStretch(1, 1)
 
         # Label for selected paths
         self.selected_paths_label = QtWidgets.QLabel("No folder selected", body_div)
@@ -84,9 +89,16 @@ class SceneTransferApp(QtWidgets.QWidget):
         layout.addWidget(body_div, 1, 0, 1, 3)
 
         # Start button
-        start_button = QtWidgets.QPushButton("Start", self)
+        start_button = QtWidgets.QPushButton("Start", start_div)
         start_button.clicked.connect(lambda: so.start_organizing(self.selected_paths, self.selected_docs))
-        layout.addWidget(start_button, 3, 0, 1, 3)
+        start_layout.addWidget(start_button, 0, 0)
+
+        undo_button = QtWidgets.QPushButton(QtGui.QIcon("icons/undo_white.png"), "", start_div)
+        undo_button.setIconSize(QtCore.QSize(24, 24))
+        undo_button.clicked.connect(lambda: fu.undo_reorganization(self.selected_paths))
+        start_layout.addWidget(undo_button, 0, 1)
+
+        layout.addWidget(start_div, 3, 0, 1, 3)
 
         self.setLayout(layout)
 
@@ -106,7 +118,7 @@ class SceneTransferApp(QtWidgets.QWidget):
 
     def is_valid_selection(self, folder_selected, base_path):
         base_depth = base_path.count(os.sep)
-        selected_depth = folder_selected.c./ount(os.sep)
+        selected_depth = folder_selected.count(os.sep)
         commonPath = os.path.commonpath([folder_selected, base_path])
         if commonPath != base_path or folder_selected == base_path:
             return False

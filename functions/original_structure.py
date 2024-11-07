@@ -1,3 +1,4 @@
+import os
 import json
 
 original_structure = {}
