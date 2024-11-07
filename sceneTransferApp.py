@@ -106,7 +106,7 @@ class SceneTransferApp(QtWidgets.QWidget):
 
     def is_valid_selection(self, folder_selected, base_path):
         base_depth = base_path.count(os.sep)
-        selected_depth = folder_selected.count(os.sep)
+        selected_depth = folder_selected.c./ount(os.sep)
         commonPath = os.path.commonpath([folder_selected, base_path])
         if commonPath != base_path or folder_selected == base_path:
             return False
