@@ -63,6 +63,7 @@ def organize_files(base_path, doc_path=None):
             asset_folder = os.path.join(base_path, f.SIGNINOUT_FOLDER)
         else:
             asset_folder = os.path.join(base_path, f.PRODUCTION_FOLDER, "1-Source-Video", os.path.basename(folder))
+            created_folders.append(asset_folder)
         os.makedirs(asset_folder, exist_ok=True)
         mf.move_files(folder, asset_folder, ext.VIDEO_EXTENSIONS)
     if isDocsFolder:

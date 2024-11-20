@@ -16,7 +16,7 @@ class SceneTransferApp(QtWidgets.QWidget):
     def init_ui(self):
         # Set window properties
         self.setWindowTitle("PSM Scene Transfer App")
-        self.setFixedSize(800, 225)
+        self.resize(800, 225)
         self.setStyleSheet("""
             QWidget {
                 background-color: white;
