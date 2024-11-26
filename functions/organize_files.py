@@ -1,21 +1,31 @@
 import os, shutil
 from functions import extensions as ext, list_folders as lf, create_folders as cf, move_files as mf, folders as f
 
+created_folders = []
+original_doc_path = ""
+moved_doc_path = ""
+
 def organize_files(base_path, doc_path=None):
 
+    global created_folders
+
     if doc_path:
+        global original_doc_path
+        global moved_doc_path
+        original_doc_path = doc_path
         isDocsFolder = True
         parent_path = os.path.dirname(base_path)
         docs_folder = os.path.basename(doc_path)
         dest_folder = os.path.join(parent_path, docs_folder)
-        shutil.move(doc_path, dest_folder)
+        moved_doc_path = dest_folder
         asset_extensions = ext.VIDEO_EXTENSIONS + ext.IMAGE_EXTENSIONS + ext.DOCUMENT_EXTENSIONS
-        base_path = dest_folder
+        base_path = doc_path
     else:
         isDocsFolder = False
         asset_extensions = ext.VIDEO_EXTENSIONS + ext.AUDIO_EXTENSIONS + ext.IMAGE_EXTENSIONS
 
     other = os.path.join(base_path, "Other")
+    created_folders.append(other)
     os.makedirs(other, exist_ok=True)
 
     for root, dirs, files in os.walk(base_path, topdown=False):
@@ -41,22 +51,24 @@ def organize_files(base_path, doc_path=None):
     video_folders = lf.list_folders(base_path, ext.VIDEO_EXTENSIONS)
     image_folders = lf.list_folders(base_path, ext.IMAGE_EXTENSIONS)
     if isDocsFolder:
-        document_folders = lf.list_folders(dest_folder, ext.DOCUMENT_EXTENSIONS)
+        document_folders = lf.list_folders(doc_path, ext.DOCUMENT_EXTENSIONS)
     else:
         audio_folders = lf.list_folders(base_path, ext.AUDIO_EXTENSIONS)
 
-    created_folders = cf.create_folders(base_path, isDocsFolder)
+    folders_created = cf.create_folders(base_path, isDocsFolder)
+    created_folders.extend(folders_created)
 
     for folder in video_folders:
         if isDocsFolder:
             asset_folder = os.path.join(base_path, f.SIGNINOUT_FOLDER)
         else:
             asset_folder = os.path.join(base_path, f.PRODUCTION_FOLDER, "1-Source-Video", os.path.basename(folder))
+            created_folders.append(asset_folder)
         os.makedirs(asset_folder, exist_ok=True)
         mf.move_files(folder, asset_folder, ext.VIDEO_EXTENSIONS)
     if isDocsFolder:
-        asset_folder = os.path.join(dest_folder, f.SIGNINOUT_FOLDER)
-        mf.move_files(dest_folder, asset_folder, ext.VIDEO_EXTENSIONS)
+        asset_folder = os.path.join(doc_path, f.SIGNINOUT_FOLDER)
+        mf.move_files(doc_path, asset_folder, ext.VIDEO_EXTENSIONS)
 
     for folder in image_folders:
         if isDocsFolder:
@@ -75,12 +87,15 @@ def organize_files(base_path, doc_path=None):
             os.makedirs(asset_folder, exist_ok=True)
             mf.move_files(folder, asset_folder, ext.DOCUMENT_EXTENSIONS)
         asset_folder = os.path.join(base_path, f.CONTRACTS_FOLDER)
-        mf.move_files(dest_folder, asset_folder, ext.DOCUMENT_EXTENSIONS)
+        mf.move_files(doc_path, asset_folder, ext.DOCUMENT_EXTENSIONS)
     else:
         for folder in audio_folders:
             dest_folder = os.path.join(base_path, f.PRODUCTION_FOLDER, "2-Source-Audio")
             os.makedirs(dest_folder, exist_ok=True)
             mf.move_files(folder, dest_folder, ext.AUDIO_EXTENSIONS)
+
+    if doc_path:
+        shutil.move(doc_path, dest_folder)
 
     for root, dirs, _ in os.walk(base_path, topdown=False):
         for dir in dirs:
