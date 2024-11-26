@@ -109,12 +109,13 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         self.site_code_entry = QtWidgets.QLineEdit(self)
         #layout.addWidget(self.site_code_entry, 3, 1)
-        '''
+
 
 
     def get_restricted_path(self):
         with open("settings/restricted_path.txt", "r") as file:
             return file.readline().strip()
+
 
     def is_valid_selection(self, folder_selected, base_path):
         base_depth = base_path.count(os.sep)
@@ -126,9 +127,10 @@ class SceneTransferApp(QtWidgets.QWidget):
             return True
         else:
             return False
+    '''
 
     def select_folder(self):
-        base_path = os.path.abspath(self.get_restricted_path())
+        # base_path = os.path.abspath(self.get_restricted_path())
         folder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Folder")
         if folder_selected:
             # folder_selected = os.path.abspath(folder_selected)
