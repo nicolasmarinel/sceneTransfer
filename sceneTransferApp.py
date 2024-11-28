@@ -35,6 +35,9 @@ class SceneTransferApp(QtWidgets.QWidget):
             QPushButton:pressed {
                 background-color: #FEB2C9; /* Pressed effect */
             }
+            QPushButton:checked {
+                background-color: #be4c6e;
+            }
             QLabel {
                 background-color: #DDDDDD;
                 padding: 10px;
@@ -65,6 +68,28 @@ class SceneTransferApp(QtWidgets.QWidget):
         select_button.clicked.connect(self.select_folder)
         body_layout.addWidget(select_button, 0, 1)
 
+        def multicam():
+            print(multicam_button.isChecked())
+            return multicam_button.isChecked()
+
+        # Multicam button
+        multicam_button = QtWidgets.QPushButton(QtGui.QIcon("icons/multicam_white.png"), "", body_div)
+        multicam_button.setIconSize(QtCore.QSize(24, 24))
+        multicam_button.setCheckable(True)
+        multicam_button.toggled.connect(multicam)
+        body_layout.addWidget(multicam_button, 0, 3)
+
+        def multiImg():
+            print(multiImg_button.isChecked())
+            return multiImg_button.isChecked()
+
+        # Multiple image folders button
+        multiImg_button = QtWidgets.QPushButton(QtGui.QIcon("icons/imageFolders_white.png"), "", body_div)
+        multiImg_button.setIconSize(QtCore.QSize(24, 24))
+        multiImg_button.setCheckable(True)
+        multiImg_button.toggled.connect(multiImg)
+        body_layout.addWidget(multiImg_button, 0, 4)
+
         # Clear selection button
         clear_scene_button = QtWidgets.QPushButton(QtGui.QIcon("icons/backspace_white.png"), "", body_div)
         clear_scene_button.setIconSize(QtCore.QSize(24, 24))
@@ -75,6 +100,7 @@ class SceneTransferApp(QtWidgets.QWidget):
         self.selected_docs_label = QtWidgets.QLabel("No documents folder selected", body_div)
         body_layout.addWidget(self.selected_docs_label, 1, 0)
 
+        # Select documents folder button
         docs_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", body_div)
         docs_button.setIconSize(QtCore.QSize(24, 24))
         docs_button.clicked.connect(self.docs_folder)
