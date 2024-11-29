@@ -65,7 +65,7 @@ class SceneTransferApp(QtWidgets.QWidget):
         # Folder selection button
         select_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", body_div)
         select_button.setIconSize(QtCore.QSize(24, 24))
-        select_button.clicked.connect(self.select_folder)
+        select_button.clicked.connect(self.select_folder())
         body_layout.addWidget(select_button, 0, 1)
 
         def multicam():
@@ -135,50 +135,50 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         self.site_code_entry = QtWidgets.QLineEdit(self)
         #layout.addWidget(self.site_code_entry, 3, 1)
+        '''
+
+        '''
+        def get_restricted_path(self):
+            with open("settings/restricted_path.txt", "r") as file:
+                return file.readline().strip()
 
 
+        def is_valid_selection(self, folder_selected, base_path):
+            base_depth = base_path.count(os.sep)
+            selected_depth = folder_selected.count(os.sep)
+            commonPath = os.path.commonpath([folder_selected, base_path])
+            if commonPath != base_path or folder_selected == base_path:
+                return False
+            elif selected_depth >= base_depth + 3:
+                return True
+            else:
+                return False
+        '''
 
-    def get_restricted_path(self):
-        with open("settings/restricted_path.txt", "r") as file:
-            return file.readline().strip()
+        def select_folder(self):
+            # base_path = os.path.abspath(self.get_restricted_path())
+            folder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Folder")
+            if folder_selected:
+                # folder_selected = os.path.abspath(folder_selected)
+                #if not self.is_valid_selection(folder_selected, base_path):
+                #    QtWidgets.QMessageBox.critical(self, "Invalid Selection", "Folder selection not allowed at this folder hierarchy. If you wish to select a folder at or above this hierarchy, please change Settings.")
+                #else:
+                self.selected_paths.append(folder_selected)
+                self.selected_paths_label.setText(", ".join(self.selected_paths))
 
+        def docs_folder(self):
+            docFolder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Docs Folder")
+            if docFolder_selected:
+                self.selected_docs.append(docFolder_selected)
+                self.selected_docs_label.setText(", ".join(self.selected_docs))
 
-    def is_valid_selection(self, folder_selected, base_path):
-        base_depth = base_path.count(os.sep)
-        selected_depth = folder_selected.count(os.sep)
-        commonPath = os.path.commonpath([folder_selected, base_path])
-        if commonPath != base_path or folder_selected == base_path:
-            return False
-        elif selected_depth >= base_depth + 3:
-            return True
-        else:
-            return False
-    '''
-
-    def select_folder(self):
-        # base_path = os.path.abspath(self.get_restricted_path())
-        folder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Folder")
-        if folder_selected:
-            # folder_selected = os.path.abspath(folder_selected)
-            #if not self.is_valid_selection(folder_selected, base_path):
-            #    QtWidgets.QMessageBox.critical(self, "Invalid Selection", "Folder selection not allowed at this folder hierarchy. If you wish to select a folder at or above this hierarchy, please change Settings.")
-            #else:
-            self.selected_paths.append(folder_selected)
-            self.selected_paths_label.setText(", ".join(self.selected_paths))
-
-    def docs_folder(self):
-        docFolder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Docs Folder")
-        if docFolder_selected:
-            self.selected_docs.append(docFolder_selected)
-            self.selected_docs_label.setText(", ".join(self.selected_docs))
-
-    def clear_selection(self, clear_scene):
-        if clear_scene:
-            self.selected_paths.clear()
-            self.selected_paths_label.setText("No folder selected")
-        else:
-            self.selected_docs.clear()
-            self.selected_docs_label.setText("No documents folder selected")
+        def clear_selection(self, clear_scene):
+            if clear_scene:
+                self.selected_paths.clear()
+                self.selected_paths_label.setText("No folder selected")
+            else:
+                self.selected_docs.clear()
+                self.selected_docs_label.setText("No documents folder selected")
 
 
 if __name__ == "__main__":
