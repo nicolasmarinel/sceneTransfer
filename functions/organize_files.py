@@ -5,7 +5,7 @@ created_folders = []
 original_doc_path = ""
 moved_doc_path = ""
 
-def organize_files(base_path, doc_path=None):
+def organize_files(base_path, doc_path=None, multicam=None, imgFolders=None):
 
     global created_folders
 
@@ -62,7 +62,7 @@ def organize_files(base_path, doc_path=None):
         if isDocsFolder:
             asset_folder = os.path.join(base_path, f.SIGNINOUT_FOLDER)
         else:
-            asset_folder = os.path.join(base_path, f.PRODUCTION_FOLDER, "1-Source-Video", os.path.basename(folder))
+            asset_folder = os.path.join(base_path, f.PRODUCTION_FOLDER, "1-Source-Video", os.path.basename(folder) if multicam else "")
             created_folders.append(asset_folder)
         os.makedirs(asset_folder, exist_ok=True)
         mf.move_files(folder, asset_folder, ext.VIDEO_EXTENSIONS)
@@ -74,7 +74,7 @@ def organize_files(base_path, doc_path=None):
         if isDocsFolder:
             asset_folder = os.path.join(base_path, f.IDS_FOLDER)
         else:
-            asset_folder = os.path.join(base_path, f.PRODUCTION_FOLDER, "3-Source-Images")
+            asset_folder = os.path.join(base_path, f.PRODUCTION_FOLDER, "3-Source-Images", os.path.basename(folder) if imgFolders else "")
         os.makedirs(asset_folder, exist_ok=True)
         mf.move_files(folder, asset_folder, ext.IMAGE_EXTENSIONS)
     if isDocsFolder:

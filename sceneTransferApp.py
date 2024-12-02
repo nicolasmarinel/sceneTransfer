@@ -11,6 +11,8 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         self.selected_paths = []
         self.selected_docs = []
+        self.multicam = False
+        self.imgFolders = False
         self.init_ui()
 
     def init_ui(self):
@@ -65,30 +67,22 @@ class SceneTransferApp(QtWidgets.QWidget):
         # Folder selection button
         select_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", body_div)
         select_button.setIconSize(QtCore.QSize(24, 24))
-        select_button.clicked.connect(self.select_folder())
+        select_button.clicked.connect(self.select_folder)
         body_layout.addWidget(select_button, 0, 1)
-
-        def multicam():
-            print(multicam_button.isChecked())
-            return multicam_button.isChecked()
 
         # Multicam button
         multicam_button = QtWidgets.QPushButton(QtGui.QIcon("icons/multicam_white.png"), "", body_div)
         multicam_button.setIconSize(QtCore.QSize(24, 24))
         multicam_button.setCheckable(True)
-        multicam_button.toggled.connect(multicam)
+        multicam_button.toggled.connect(self.update_multicam)
         body_layout.addWidget(multicam_button, 0, 3)
 
-        def multiImg():
-            print(multiImg_button.isChecked())
-            return multiImg_button.isChecked()
-
         # Multiple image folders button
-        multiImg_button = QtWidgets.QPushButton(QtGui.QIcon("icons/imageFolders_white.png"), "", body_div)
-        multiImg_button.setIconSize(QtCore.QSize(24, 24))
-        multiImg_button.setCheckable(True)
-        multiImg_button.toggled.connect(multiImg)
-        body_layout.addWidget(multiImg_button, 0, 4)
+        imgFolders_button = QtWidgets.QPushButton(QtGui.QIcon("icons/imageFolders_white.png"), "", body_div)
+        imgFolders_button.setIconSize(QtCore.QSize(24, 24))
+        imgFolders_button.setCheckable(True)
+        imgFolders_button.toggled.connect(self.update_imgFolders)
+        body_layout.addWidget(imgFolders_button, 0, 4)
 
         # Clear selection button
         clear_scene_button = QtWidgets.QPushButton(QtGui.QIcon("icons/backspace_white.png"), "", body_div)
@@ -116,7 +110,7 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         # Start button
         start_button = QtWidgets.QPushButton("Start", start_div)
-        start_button.clicked.connect(lambda: so.start_organizing(self.selected_paths, self.selected_docs))
+        start_button.clicked.connect(lambda: so.start_organizing(self.selected_paths, self.selected_docs, self.multicam, self.imgFolders))
         start_layout.addWidget(start_button, 0, 0)
 
         undo_button = QtWidgets.QPushButton(QtGui.QIcon("icons/undo_white.png"), "", start_div)
@@ -137,48 +131,54 @@ class SceneTransferApp(QtWidgets.QWidget):
         #layout.addWidget(self.site_code_entry, 3, 1)
         '''
 
-        '''
-        def get_restricted_path(self):
-            with open("settings/restricted_path.txt", "r") as file:
-                return file.readline().strip()
+    '''
+    def get_restricted_path(self):
+        with open("settings/restricted_path.txt", "r") as file:
+            return file.readline().strip()
 
 
-        def is_valid_selection(self, folder_selected, base_path):
-            base_depth = base_path.count(os.sep)
-            selected_depth = folder_selected.count(os.sep)
-            commonPath = os.path.commonpath([folder_selected, base_path])
-            if commonPath != base_path or folder_selected == base_path:
-                return False
-            elif selected_depth >= base_depth + 3:
-                return True
-            else:
-                return False
-        '''
+    def is_valid_selection(self, folder_selected, base_path):
+        base_depth = base_path.count(os.sep)
+        selected_depth = folder_selected.count(os.sep)
+        commonPath = os.path.commonpath([folder_selected, base_path])
+        if commonPath != base_path or folder_selected == base_path:
+            return False
+        elif selected_depth >= base_depth + 3:
+            return True
+        else:
+            return False
+    '''
 
-        def select_folder(self):
-            # base_path = os.path.abspath(self.get_restricted_path())
-            folder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Folder")
-            if folder_selected:
-                # folder_selected = os.path.abspath(folder_selected)
-                #if not self.is_valid_selection(folder_selected, base_path):
-                #    QtWidgets.QMessageBox.critical(self, "Invalid Selection", "Folder selection not allowed at this folder hierarchy. If you wish to select a folder at or above this hierarchy, please change Settings.")
-                #else:
-                self.selected_paths.append(folder_selected)
-                self.selected_paths_label.setText(", ".join(self.selected_paths))
+    def update_multicam(self, checked):
+        self.multicam = checked
 
-        def docs_folder(self):
-            docFolder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Docs Folder")
-            if docFolder_selected:
-                self.selected_docs.append(docFolder_selected)
-                self.selected_docs_label.setText(", ".join(self.selected_docs))
+    def update_imgFolders(self, checked):
+        self.imgFolders = checked
 
-        def clear_selection(self, clear_scene):
-            if clear_scene:
-                self.selected_paths.clear()
-                self.selected_paths_label.setText("No folder selected")
-            else:
-                self.selected_docs.clear()
-                self.selected_docs_label.setText("No documents folder selected")
+    def select_folder(self):
+        # base_path = os.path.abspath(self.get_restricted_path())
+        folder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Folder")
+        if folder_selected:
+            # folder_selected = os.path.abspath(folder_selected)
+            #if not self.is_valid_selection(folder_selected, base_path):
+            #    QtWidgets.QMessageBox.critical(self, "Invalid Selection", "Folder selection not allowed at this folder hierarchy. If you wish to select a folder at or above this hierarchy, please change Settings.")
+            #else:
+            self.selected_paths.append(folder_selected)
+            self.selected_paths_label.setText(", ".join(self.selected_paths))
+
+    def docs_folder(self):
+        docFolder_selected = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Docs Folder")
+        if docFolder_selected:
+            self.selected_docs.append(docFolder_selected)
+            self.selected_docs_label.setText(", ".join(self.selected_docs))
+
+    def clear_selection(self, clear_scene):
+        if clear_scene:
+            self.selected_paths.clear()
+            self.selected_paths_label.setText("No folder selected")
+        else:
+            self.selected_docs.clear()
+            self.selected_docs_label.setText("No documents folder selected")
 
 
 if __name__ == "__main__":

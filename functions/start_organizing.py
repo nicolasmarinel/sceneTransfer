@@ -3,7 +3,7 @@ from functions import organize_files as of, original_structure as ogs
 from tkinter import messagebox
 
 # The function called when the user presses the "Start" button.
-def start_organizing(base_paths, doc_paths):
+def start_organizing(base_paths, doc_paths, multicam, imgFolders):
 
     #site_code = site_code_entry.get()
     #print(site_code)
@@ -16,6 +16,6 @@ def start_organizing(base_paths, doc_paths):
     ogs.log_original_structure(base_path)
 
     of.organize_files(base_path, doc_path)
-    of.organize_files(base_path)
+    of.organize_files(base_path, None, multicam, imgFolders)
 
     messagebox.showinfo("Done", "Files have been organized successfully.")
