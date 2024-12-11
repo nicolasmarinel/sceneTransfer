@@ -11,6 +11,8 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         self.selected_paths = []
         self.selected_docs = []
+        self.multicam = False
+        self.imgFolders = False
         self.init_ui()
 
     def init_ui(self):
@@ -34,6 +36,9 @@ class SceneTransferApp(QtWidgets.QWidget):
             }
             QPushButton:pressed {
                 background-color: #FEB2C9; /* Pressed effect */
+            }
+            QPushButton:checked {
+                background-color: #be4c6e;
             }
             QLabel {
                 background-color: #DDDDDD;
@@ -65,6 +70,20 @@ class SceneTransferApp(QtWidgets.QWidget):
         select_button.clicked.connect(self.select_folder)
         body_layout.addWidget(select_button, 0, 1)
 
+        # Multicam button
+        multicam_button = QtWidgets.QPushButton(QtGui.QIcon("icons/multicam_white.png"), "", body_div)
+        multicam_button.setIconSize(QtCore.QSize(24, 24))
+        multicam_button.setCheckable(True)
+        multicam_button.toggled.connect(self.update_multicam)
+        body_layout.addWidget(multicam_button, 0, 3)
+
+        # Multiple image folders button
+        imgFolders_button = QtWidgets.QPushButton(QtGui.QIcon("icons/imageFolders_white.png"), "", body_div)
+        imgFolders_button.setIconSize(QtCore.QSize(24, 24))
+        imgFolders_button.setCheckable(True)
+        imgFolders_button.toggled.connect(self.update_imgFolders)
+        body_layout.addWidget(imgFolders_button, 0, 4)
+
         # Clear selection button
         clear_scene_button = QtWidgets.QPushButton(QtGui.QIcon("icons/backspace_white.png"), "", body_div)
         clear_scene_button.setIconSize(QtCore.QSize(24, 24))
@@ -75,6 +94,7 @@ class SceneTransferApp(QtWidgets.QWidget):
         self.selected_docs_label = QtWidgets.QLabel("No documents folder selected", body_div)
         body_layout.addWidget(self.selected_docs_label, 1, 0)
 
+        # Select documents folder button
         docs_button = QtWidgets.QPushButton(QtGui.QIcon("icons/folder_white.png"), "", body_div)
         docs_button.setIconSize(QtCore.QSize(24, 24))
         docs_button.clicked.connect(self.docs_folder)
@@ -90,7 +110,7 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         # Start button
         start_button = QtWidgets.QPushButton("Start", start_div)
-        start_button.clicked.connect(lambda: so.start_organizing(self.selected_paths, self.selected_docs))
+        start_button.clicked.connect(lambda: so.start_organizing(self.selected_paths, self.selected_docs, self.multicam, self.imgFolders))
         start_layout.addWidget(start_button, 0, 0)
 
         undo_button = QtWidgets.QPushButton(QtGui.QIcon("icons/undo_white.png"), "", start_div)
@@ -109,9 +129,9 @@ class SceneTransferApp(QtWidgets.QWidget):
 
         self.site_code_entry = QtWidgets.QLineEdit(self)
         #layout.addWidget(self.site_code_entry, 3, 1)
+        '''
 
-
-
+    '''
     def get_restricted_path(self):
         with open("settings/restricted_path.txt", "r") as file:
             return file.readline().strip()
@@ -128,6 +148,12 @@ class SceneTransferApp(QtWidgets.QWidget):
         else:
             return False
     '''
+
+    def update_multicam(self, checked):
+        self.multicam = checked
+
+    def update_imgFolders(self, checked):
+        self.imgFolders = checked
 
     def select_folder(self):
         # base_path = os.path.abspath(self.get_restricted_path())
