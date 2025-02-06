@@ -1,4 +1,4 @@
 # Ignore the test scene
 shooterFolder/
-functions/__pycache__
-
+functions/__pycache__/
+reloadTest.sh
