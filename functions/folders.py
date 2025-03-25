@@ -26,6 +26,5 @@ POST_PRODUCTION_SUBFOLDERS = [
 
 IMAGES_SUBFOLDERS = [
     "Final_Retouches",
-    "Pictures_HD",
-    "Screencaps"
+    "On_Demand"
 ]
