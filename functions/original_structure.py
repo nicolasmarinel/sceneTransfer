@@ -1,12 +1,11 @@
 import os
 import json
 
-original_structure = {
-    "directories": [],
-    "files": []
-}
-
 def log_original_structure(folder_path):
+    original_structure = {
+        "directories": [],
+        "files": []
+    }
     for root, dirs, files in os.walk(folder_path):
         for dir_name in dirs:
             dir_path = os.path.join(root, dir_name)
