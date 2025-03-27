@@ -176,12 +176,6 @@ class SceneTransferApp(QtWidgets.QWidget):
         if clear_scene:
             self.selected_paths.clear()
             self.selected_paths_label.setText("No folder selected")
-            json_file = "original_structure.json"
-            if os.path.exists(json_file):
-                os.remove(json_file)
-                print(f"{json_file} has been deleted.")
-            else:
-                print(f"{json_file} does not exist.")
         else:
             self.selected_docs.clear()
             self.selected_docs_label.setText("No documents folder selected")
