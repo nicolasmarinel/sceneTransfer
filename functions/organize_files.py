@@ -37,7 +37,10 @@ def organize_files(base_path, doc_path=None, multicam=None, imgFolders=None):
     # Create the path for the "Other" folder.
     other = os.path.join(base_path, "Other")
     # Store the "Other" folder in the list of created folders.
-    created_folders.append(other)
+    if isDocsFolder:
+        created_folders.append(os.path.join(moved_doc_path, "Other"))
+    else:
+        created_folders.append(other)
     # Create the "Other" folder.
     os.makedirs(other, exist_ok=True)
 
