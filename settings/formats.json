@@ -18,7 +18,8 @@
       ".wmv",
       ".mpeg",
       ".mxf",
-      ".m4v"
+      ".m4v",
+      ".mts"
     ],
 
     "images": [
