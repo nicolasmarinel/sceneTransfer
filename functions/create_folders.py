@@ -46,6 +46,9 @@ def create_folders(base_path, isDocsFolder=None, moved_doc_path=None):
             created_folders.add(folder_path)
             os.makedirs(folder_path, exist_ok=True)
 
+        # Create the path for the "3-Edit-Images" folder.
+        post_images_path = os.path.join(base_path, f.POST_PRODUCTION_FOLDER, f.POST_PRODUCTION_SUBFOLDERS[3]) 
+
         # Create the path for the "3-Masters" folder.  
         masters_path = os.path.join(base_path, f.MASTERS_FOLDER)
 
@@ -60,8 +63,13 @@ def create_folders(base_path, isDocsFolder=None, moved_doc_path=None):
         # Create the "Images" subfolder.
         images_path = os.path.join(masters_path, "Images")
 
-        for subfolder in f.IMAGES_SUBFOLDERS:
+        for subfolder in f.IMAGE_MASTERS_SUBFOLDERS:
             folder_path = os.path.join(images_path, subfolder)
+            created_folders.add(folder_path)
+            os.makedirs(folder_path, exist_ok=True)
+        
+        for subfolder in f.IMAGE_POST_SUBFOLDERS:
+            folder_path = os.path.join(post_images_path, subfolder)
             created_folders.add(folder_path)
             os.makedirs(folder_path, exist_ok=True)
 

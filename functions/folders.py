@@ -24,7 +24,12 @@ POST_PRODUCTION_SUBFOLDERS = [
     "4-Edit-Graphics"
 ]
 
-IMAGES_SUBFOLDERS = [
+IMAGE_POST_SUBFOLDERS = [
+    "Gallery",
+    "Selects"
+]
+
+IMAGE_MASTERS_SUBFOLDERS = [
     "Final_Retouches",
     "On_Demand"
 ]
